@@ -38,6 +38,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /find_regulations_referencing_code:
@@ -66,6 +67,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /find_related_regulations:
@@ -94,6 +96,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /get_field_of_law_codes:
@@ -107,6 +110,7 @@ paths:
           application/json:
             schema:
               type: object
+              properties: {}
       responses:
         "200":
           description: List of field-of-law codes
@@ -114,6 +118,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /get_master_codes:
@@ -127,6 +132,7 @@ paths:
           application/json:
             schema:
               type: object
+              properties: {}
       responses:
         "200":
           description: Master codes for levels and governors
@@ -134,6 +140,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /list_regulations:
@@ -202,6 +209,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /search_regulations:
@@ -239,6 +247,7 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
 
   /search_regulation_chunks_by_vector:
@@ -305,4 +314,5 @@ paths:
             application/json:
               schema:
                 type: object
+                properties: {}
                 additionalProperties: true
