@@ -7,8 +7,6 @@ info:
 servers:
   - url: https://mcp.ruleway.ai
     description: Production
-  - url: https://mcpdev.ruleway.ai
-    description: Development
 
 security:
   - ApiKeyAuth: []
