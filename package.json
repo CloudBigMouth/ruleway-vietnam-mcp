@@ -1,6 +1,6 @@
 {
   "name": "vietnamese-legal-mcp",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Setup tool for Vietnamese Legal MCP server and AI Skill (Cursor, Claude, Codex, Windsurf, Antigravity, Gemini CLI)",
   "keywords": ["vietnamese-law", "mcp", "ai-skill", "cursor", "claude", "codex", "legal", "ruleway"],
   "license": "MIT",
