@@ -7,7 +7,7 @@
 > AI 어시스턴트가 베트남 법령 데이터베이스에 직접 접근할 수 있는 MCP 서버입니다.  
 > Claude, Cursor, Gemini CLI, ChatGPT Desktop 등에 연결해 베트남 법령을 자연어로 질의하세요.
 
-![RuleWay MCP 히어로](hero-ko.png)
+![RuleWay MCP 히어로](https://raw.githubusercontent.com/CloudBigMouth/ruleway-vietnam-mcp/main/hero-ko.png)
 
 🌐 **서비스:** [ruleway.ai/ko/mcp](https://ruleway.ai/ko/mcp)  
 🔑 **API 키 발급:** [대시보드 →](https://ruleway.ai/ko/mcp/dashboard)  
@@ -91,6 +91,9 @@ API 키와 사용할 AI 툴을 입력하면 설정 파일이 자동으로 작성
 ```bash
 # 비대화식 설치
 npx vietnamese-legal-mcp --key rwmcp_YOUR_KEY --tool cursor
+
+# 개발 서버 연결
+npx vietnamese-legal-mcp --dev
 ```
 
 **지원 툴:** Cursor · Claude Desktop · Windsurf · Codex · Antigravity · Gemini CLI
@@ -198,6 +201,17 @@ npx vietnamese-legal-skill --tool cursor --key rwmcp_your_key_here
 
 ---
 
+### GPTs (ChatGPT Actions)
+
+GPT Actions에 OpenAPI 스펙 URL을 등록하세요:
+
+```
+https://mcp.ruleway.ai/openapi.yaml
+```
+
+인증: **API Key** → Header name: `X-API-Key`
+
+---
 
 ## 사용 예시
 
@@ -270,7 +284,7 @@ RuleWay는 **Legal 버티컬 AI** 기능 확장을 위해 법률 전문 기관·
 
 ## 엔터프라이즈
 
-더 깊은 통합이 필요하신가요? → **[엔터프라이즈 문의](https://ruleway.ai/intro/enterprise)**
+더 깊은 통합이 필요하신가요? → **[엔터프라이즈 문의](https://ruleway.ai/ko/intro/enterprise)**
 
 - **엔터프라이즈 배포** — On-Premise/사설망 로컬 LLM, SSO·부서별 접근 제어, 사내 규정 AI 검색, 커스텀 리포트 및 자동화 워크플로우
 - **REST API 서비스** — 베트남 법령 DB에 REST API로 직접 접근, 의미 기반 벡터 검색, 다국어 Q&A 엔진 통합

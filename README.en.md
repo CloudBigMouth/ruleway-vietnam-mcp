@@ -7,7 +7,7 @@
 > An MCP server that gives your AI assistant direct access to the Vietnamese legal database.  
 > Connect Claude, Cursor, Gemini CLI, ChatGPT Desktop and ask questions about Vietnamese law in natural language.
 
-![RuleWay MCP Hero](hero-en.png)
+![RuleWay MCP Hero](https://raw.githubusercontent.com/CloudBigMouth/ruleway-vietnam-mcp/main/hero-en.png)
 
 🌐 **Service:** [ruleway.ai/en/mcp](https://ruleway.ai/en/mcp)  
 🔑 **Get API Key:** [Dashboard →](https://ruleway.ai/en/mcp/dashboard)  
@@ -91,6 +91,9 @@ The CLI will ask for your API key and AI tool, then automatically write the conf
 ```bash
 # Non-interactive
 npx vietnamese-legal-mcp --key rwmcp_YOUR_KEY --tool cursor
+
+# Dev server
+npx vietnamese-legal-mcp --dev
 ```
 
 **Supported tools:** Cursor · Claude Desktop · Windsurf · Codex · Antigravity · Gemini CLI
@@ -198,6 +201,17 @@ npx vietnamese-legal-skill --tool cursor --key rwmcp_your_key_here
 
 ---
 
+### GPTs (ChatGPT Actions)
+
+Register the OpenAPI spec URL in GPT Actions:
+
+```
+https://mcp.ruleway.ai/openapi.yaml
+```
+
+Authentication: **API Key** → Header name: `X-API-Key`
+
+---
 
 ## Usage Examples
 
@@ -270,7 +284,7 @@ We welcome proposals from legal institutions and firms. 📧 [Send Proposal](htt
 
 ## Enterprise
 
-Need deeper integration? → **[Enterprise Inquiry](https://ruleway.ai/intro/enterprise)**
+Need deeper integration? → **[Enterprise Inquiry](https://ruleway.ai/en/intro/enterprise)**
 
 - **Enterprise Deployment** — On-premise / private network local LLM, SSO & departmental access control, internal policy AI search, custom reports & automated workflows
 - **REST API Service** — Direct access to the Vietnam legal database via REST API, semantic vector search, multilingual Q&A engine integration
