@@ -31,7 +31,29 @@ Wrong: `"145/2020/ND-CP"` → Right: `"145/2020/NĐ-CP"`
 If a tool returns `[]` or `total_returned: 0`, report it to the user.  
 **Do not substitute regulation codes or legal facts from pre-trained knowledge.**
 
-### CR-3 — Use `scripts/query.py` for all HTTP calls
+### CR-3 — `query` is for vector DB only — separate from reasoning context
+When calling `search_regulation_chunks_by_vector`, the `query` parameter is sent to the vector database for similarity matching only — NOT for your reasoning.
+
+Split like this:
+- **Reasoning context (keep in your head):** user language, question intent, company type, country of origin, time period
+- **`query` (send to API):** Vietnamese legal concept keywords only, distilled from intent
+
+STRIP from `query`: country/location noise words (Việt Nam, Vietnam, 베트남, 현지, tại Việt Nam, trong nước) — all documents are already Vietnamese law; these words hurt search quality.
+STRIP from `query`: question words, negations, company names, personal context.
+KEEP in `query`: legal nouns, article subjects, regulatory concepts.
+
+Examples:
+```bash
+# User: "베트남에서 한국 기업 법인 설립 시 최소 자본금은?"
+python $SCRIPT chunks --query "vốn điều lệ tối thiểu thành lập doanh nghiệp nước ngoài"
+# NOT: --query "베트남 한국기업 최소자본금"
+
+# User: "노동계약 해지 시 퇴직금 지급 기준"
+python $SCRIPT chunks --query "trợ cấp thôi việc chấm dứt hợp đồng lao động" --content "trợ cấp thôi việc"
+# content = must-contain 2nd-pass keyword filter
+```
+
+### CR-4 — Use `scripts/query.py` for all HTTP calls
 Never use `Invoke-RestMethod`, `Invoke-WebRequest`, or inline `node -e` for API calls.  
 Always use the pre-built script — it handles UTF-8, `.env` key loading, and error reporting:
 ```bash
@@ -42,7 +64,7 @@ python .cursor/skills/vietnamese-legal/scripts/query.py <command> [options]
 
 Full parameter reference: [reference.md](reference.md)
 
-### CR-4 — Read `reference.md` before every API call
+### CR-5 — Read `reference.md` before every API call
 **Before calling any `query.py` command**, open and read the matching section in `reference.md`.  
 Each command has its own parameter set — never guess, never reuse parameters from a different command.
 
