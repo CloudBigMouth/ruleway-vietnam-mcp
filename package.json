@@ -1,6 +1,6 @@
 {
   "name": "vietnamese-legal-mcp",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Setup tool for Vietnamese Legal MCP server and AI Skill (Cursor, Claude, Codex, Windsurf, Antigravity, Gemini CLI)",
   "keywords": ["vietnamese-law", "mcp", "ai-skill", "cursor", "claude", "codex", "legal", "ruleway"],
   "license": "MIT",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ruleway-vietnam/ruleway-vietnam-mcp.git"
+    "url": "https://github.com/CloudBigMouth/ruleway-vietnam-mcp.git"
   },
   "homepage": "https://mcp.ruleway.ai"
 }
