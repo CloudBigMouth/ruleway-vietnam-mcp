@@ -1,0 +1,30 @@
+{
+  "name": "vietnamese-legal-mcp",
+  "version": "1.2.1",
+  "description": "Setup tool for Vietnamese Legal MCP server and AI Skill (Cursor, Claude, Codex, Windsurf, Antigravity, Gemini CLI)",
+  "keywords": ["vietnamese-law", "mcp", "ai-skill", "cursor", "claude", "codex", "legal", "ruleway"],
+  "license": "MIT",
+  "bin": {
+    "vietnamese-legal-mcp":   "./install-mcp.js",
+    "vietnamese-legal-skill": "./install-skill.js"
+  },
+  "files": [
+    "install-mcp.js",
+    "install-skill.js",
+    "SKILL.md",
+    "reference.md",
+    "scripts/",
+    "README.md",
+    "README.en.md",
+    "README.ja.md",
+    "README.vi.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ruleway-vietnam/ruleway-vietnam-mcp.git"
+  },
+  "homepage": "https://mcp.ruleway.ai"
+}

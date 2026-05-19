@@ -1,0 +1,6 @@
+node_modules/
+*.tgz
+.DS_Store
+
+# Ruleway skill API key
+.cursor/skills/vietnamese-legal/.env
