@@ -70,6 +70,7 @@ Each command has its own parameter set — never guess, never reuse parameters f
 | Find by **official title** only | `search_regulations` | `query.py search --query_vi "..."` |
 | **Meaning / article** search | `search_regulation_chunks_by_vector` | `query.py chunks --query "..."` |
 | One regulation's **specific article** | chunks + code + article | `query.py chunks --query "..." --regulation_code "..." --article_number "15"` |
+| **Must-contain keyword** filter | chunks + content | `query.py chunks --query "..." --content "keyword"` |
 
 ---
 
@@ -107,6 +108,7 @@ SCRIPT=.cursor/skills/ruleway-legal/scripts/query.py
 # Semantic article search (most common)
 python $SCRIPT chunks --query "mức đóng bảo hiểm" --top_k 5
 python $SCRIPT chunks --query "mức đóng" --regulation_code "41/2024/QH15" --article_number "34"
+python $SCRIPT chunks --query "chấm dứt hợp đồng" --content "trợ cấp thôi việc"
 
 # Full text by regulation code
 python $SCRIPT code --regulation_code "41/2024/QH15"

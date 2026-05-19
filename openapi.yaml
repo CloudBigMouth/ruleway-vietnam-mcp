@@ -1,0 +1,350 @@
+openapi: 3.0.0
+info:
+  title: Vietnam Law API
+  description: Search and retrieve Vietnamese legal regulations and laws.
+  version: 1.1.0
+
+servers:
+  - url: https://mcp.ruleway.ai
+    description: Production
+  - url: https://mcpdev.ruleway.ai
+    description: Development
+
+security:
+  - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+
+paths:
+  /find_regulation_by_code:
+    post:
+      operationId: findRegulationByCode
+      summary: Find a regulation by its official code
+      description: Returns metadata and full text of a regulation by its code. Use this first when the regulation code is known.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - regulation_code
+              properties:
+                regulation_code:
+                  type: string
+                  description: Official regulation code (e.g. 22/2025/TT-NHNN)
+                regulation_level_id:
+                  type: integer
+                  description: Filter by regulation level ID
+                regulation_number:
+                  type: integer
+                  description: Regulation number
+                regulation_year:
+                  type: integer
+                  description: Regulation year
+      responses:
+        "200":
+          description: Regulation metadata and full text
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /find_regulations_referencing_code:
+    post:
+      operationId: findRegulationsReferencingCode
+      summary: Find regulations that reference a given regulation code
+      description: Finds regulations whose full text mentions the given regulation_code as an amendment, replacement, or partial repeal.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - regulation_code
+              properties:
+                regulation_code:
+                  type: string
+                  description: The regulation code to search references for
+                limit:
+                  type: integer
+                  description: Maximum number of results (default 20, max 50)
+                  default: 20
+                  maximum: 50
+      responses:
+        "200":
+          description: List of regulations referencing the code
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /find_related_regulations:
+    post:
+      operationId: findRelatedRegulations
+      summary: Find regulations related to a given regulation code
+      description: Returns metadata of regulations linked via the related_decrees field.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - regulation_code
+              properties:
+                regulation_code:
+                  type: string
+                  description: The regulation code to find related regulations for
+                limit:
+                  type: integer
+                  description: Maximum number of results (default 20, max 50)
+                  default: 20
+                  maximum: 50
+      responses:
+        "200":
+          description: List of related regulations
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /get_field_of_law_codes:
+    post:
+      operationId: getFieldOfLawCodes
+      summary: Get all field-of-law codes
+      description: Returns all available legal field codes with multilingual aliases. Use this before calling list_regulations with a field_of_law filter.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: List of field-of-law codes
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /get_master_codes:
+    post:
+      operationId: getMasterCodes
+      summary: Get regulation level and issuing body codes
+      description: Returns IDs for regulation levels and issuing bodies. Use when filtering by level (law, decree, circular) or issuing body (ministry, government).
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Master codes for levels and governors
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /list_regulations:
+    post:
+      operationId: listRegulations
+      summary: List regulations by time or status
+      description: Returns regulation metadata sorted by mode. Use for latest, newly promulgated, amended, or expiring regulations. Call get_field_of_law_codes first if filtering by sector.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - mode
+              properties:
+                mode:
+                  type: string
+                  enum:
+                    - recent_effective
+                    - recent_notice
+                    - recent_updated
+                    - expiring_soon
+                  description: "Sort key: recent_effective=latest enacted, recent_notice=newly promulgated, recent_updated=amended/revised, expiring_soon=about to expire"
+                regulation_status_type:
+                  type: string
+                  enum:
+                    - CURRENT
+                    - PLAN
+                    - PAST
+                  default: CURRENT
+                  description: Filter by status. Default is CURRENT (in force).
+                field_of_law:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+                  description: Field-of-law code (Vietnamese). Get from get_field_of_law_codes first. Multiple sectors can be passed as an array.
+                governor_id:
+                  oneOf:
+                    - type: integer
+                    - type: array
+                      items:
+                        type: integer
+                  description: Issuing body ID. Get from get_master_codes first. Multiple bodies can be passed as an array.
+                regulation_level_id:
+                  oneOf:
+                    - type: integer
+                    - type: array
+                      items:
+                        type: integer
+                  description: Regulation level ID. Get from get_master_codes first. Multiple levels can be passed as an array.
+                limit:
+                  type: integer
+                  description: Maximum number of results (default 20, max 50)
+                  default: 20
+                  maximum: 50
+                effective_date_from:
+                  type: string
+                  description: Filter by effective date from (YYYY-MM-DD)
+                effective_date_to:
+                  type: string
+                  description: Filter by effective date to (YYYY-MM-DD)
+                notice_date_from:
+                  type: string
+                  description: Filter by notice date from (YYYY-MM-DD)
+                notice_date_to:
+                  type: string
+                  description: Filter by notice date to (YYYY-MM-DD)
+                expiry_date_from:
+                  type: string
+                  description: Filter by expiry date from (YYYY-MM-DD)
+                expiry_date_to:
+                  type: string
+                  description: Filter by expiry date to (YYYY-MM-DD)
+      responses:
+        "200":
+          description: List of regulations metadata
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /search_regulations:
+    post:
+      operationId: searchRegulations
+      summary: Search regulations by title keyword
+      description: Searches regulation titles using a Vietnamese keyword. Use only when looking for a specific regulation by name. Translate query to Vietnamese before calling.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query_vi
+              properties:
+                query_vi:
+                  type: string
+                  description: Vietnamese legal title keyword (e.g. "Bo Luat Lao Dong" for Labor Code)
+                regulation_status_type:
+                  type: string
+                  enum:
+                    - CURRENT
+                    - PLAN
+                    - PAST
+                  default: CURRENT
+                  description: Filter by status. Default is CURRENT (in force).
+                regulation_level_id:
+                  oneOf:
+                    - type: integer
+                    - type: array
+                      items:
+                        type: integer
+                  description: Regulation level ID. Get from get_master_codes first. Multiple levels can be passed as an array.
+                limit:
+                  type: integer
+                  description: Maximum number of results (default 20, max 50)
+                  default: 20
+                  maximum: 50
+      responses:
+        "200":
+          description: List of matching regulations
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /search_regulation_chunks_by_vector:
+    post:
+      operationId: searchRegulationChunksByVector
+      summary: Semantic search over regulation article chunks
+      description: Performs vector similarity search over regulation article/paragraph chunks. Query MUST be in Vietnamese legal terms only — strip country/location words like "Viet Nam". Use when regulation code is unknown or article-level evidence is needed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: Vietnamese legal concept keywords only. Strip location words (Viet Nam, etc.). Example: "hop dong lao dong" not "hop dong lao dong tai Viet Nam"
+                content:
+                  type: string
+                  description: Optional must-contain keyword filter. After vector search, only chunks containing this keyword are returned. Use for precise article-level filtering (e.g. "trợ cấp thôi việc" to filter results that must mention severance pay).
+                regulation_code:
+                  type: string
+                  description: Scope search to one regulation. Required when using article_number.
+                article_number:
+                  type: string
+                  description: Article number (e.g. "3", "15"). Must be used with regulation_code.
+                regulation_status_type:
+                  type: string
+                  enum:
+                    - CURRENT
+                    - PLAN
+                    - PAST
+                  default: CURRENT
+                  description: Filter by status. Default is CURRENT (in force).
+                regulation_level_id:
+                  type: integer
+                governor_id:
+                  type: integer
+                top_k:
+                  type: integer
+                  description: Number of results (default 10, max 20)
+                  default: 10
+                  maximum: 20
+                effective_date_from:
+                  type: string
+                  description: YYYY-MM-DD
+                effective_date_to:
+                  type: string
+                  description: YYYY-MM-DD
+                notice_date_from:
+                  type: string
+                  description: YYYY-MM-DD
+                notice_date_to:
+                  type: string
+                  description: YYYY-MM-DD
+                expiry_date_from:
+                  type: string
+                  description: YYYY-MM-DD
+                expiry_date_to:
+                  type: string
+                  description: YYYY-MM-DD
+      responses:
+        "200":
+          description: Matching regulation chunks with article numbers
+          content:
+            application/json:
+              schema:
+                type: object
