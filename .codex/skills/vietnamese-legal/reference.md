@@ -1,7 +1,9 @@
 # Ruleway API Reference — Full Parameter Details
 
 All tools: `POST https://mcp.ruleway.ai/<path>` with `x-api-key` header.  
-Response shape: `{ "data": <payload>, "_credits_remaining": <number> }` on success, `{ "error": "..." }` on failure.
+Response shape: `{ "data": <payload>, "_credits_remaining": <number>, "_notice"?: <string> }` on success, `{ "error": "..." }` on failure.
+
+- `_notice`: optional operational message from Ruleway (e.g. reference site maintenance). When present, the calling model must show it at the end of the user-facing answer (see SKILL.md RULE 5). Not a separate API tool.
 
 ---
 

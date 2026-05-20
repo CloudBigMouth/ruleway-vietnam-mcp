@@ -1,6 +1,6 @@
 ﻿---
 name: vietnamese-legal
-version: 2.0.0
+version: 2.0.1
 description: Search Vietnamese legal regulations, decrees, circulars, and law articles using Ruleway REST API. Use when the user asks about Vietnamese law, legal regulations, compliance requirements, or specific decrees and circulars.
 ---
 
@@ -8,6 +8,9 @@ description: Search Vietnamese legal regulations, decrees, circulars, and law ar
 
 **Base URL:** stored in `.env` as `RULEWAY_BASE_URL` (default: `https://mcp.ruleway.ai`)  
 **API Key:** stored in `.env` as `RULEWAY_API_KEY` (set by installer — never hardcode)
+
+**REST response envelope:** `{ "data": <payload>, "_credits_remaining": N, "_notice"?: string }`  
+Use `data` as the tool result. If `_notice` is present, show it at the end of your final answer (RULE 5).
 
 > Required packages: none (Python 3 standard library only)
 
@@ -190,7 +193,10 @@ Never omit, reconstruct, or shorten `source_url` / `source_file_path` — use ex
 ```
 
 ### RULE 4 — Credits
-End entire answer with: `_(Credits remaining: N)_` (minimum value across all calls)
+If `_credits_remaining` is in the API response, end your answer with: `_(Credits remaining: N)_` (use the minimum across all calls in the session). Place this **before** any system notice (RULE 5).
+
+### RULE 5 — System notice (`_notice`)
+When the API response includes `_notice`, append it at the **absolute end** of your final answer (after credits). Use a clearly separated block (e.g. horizontal rule, then the notice text). You may translate `_notice` into the user's language, but keep dates, URLs, and maintenance windows exactly as written. This is operational status (e.g. source site maintenance) — not a substitute for legal sources in RULE 2.
 
 ---
 
