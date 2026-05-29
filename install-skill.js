@@ -80,7 +80,11 @@ function ensureDir(dir) {
 
 function copyFile(src, dest) {
   try {
-    fs.copyFileSync(src, dest);
+    let buf = fs.readFileSync(src);
+    if (buf[0] === 0xEF && buf[1] === 0xBB && buf[2] === 0xBF) {
+      buf = buf.slice(3);
+    }
+    fs.writeFileSync(dest, buf);
   } catch (e) {
     console.error(`\n✗ Failed to write file: ${e.message}`);
     process.exit(1);

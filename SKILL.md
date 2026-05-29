@@ -1,4 +1,4 @@
-﻿---
+---
 name: vietnamese-legal
 version: 2.0.1
 description: Search Vietnamese legal regulations, decrees, circulars, and law articles using Ruleway REST API. Use when the user asks about Vietnamese law, legal regulations, compliance requirements, or specific decrees and circulars.
