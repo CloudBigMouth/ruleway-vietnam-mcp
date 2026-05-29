@@ -4,3 +4,6 @@ node_modules/
 
 # Ruleway skill API key
 .cursor/skills/vietnamese-legal/.env
+
+# Local deployment notes (contains secrets)
+DEPLOY.md
